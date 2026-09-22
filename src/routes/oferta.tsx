@@ -247,7 +247,8 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
                 if (committingRef.current) { committingRef.current = false; return; }
                 if (textInput.committed) return;
                 if (event.relatedTarget && containerRef.current?.contains(event.relatedTarget as Node)) return;
-                textInput.onCancel();
+                if (textInput.value.trim()) textInput.onCommit();
+                else textInput.onCancel();
               }}
               className="h-7 min-w-0 flex-1 rounded border border-border bg-card px-2 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
             />

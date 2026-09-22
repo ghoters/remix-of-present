@@ -432,7 +432,9 @@ function OfferPage() {
                         return [...current, "animal"];
                       }
                       if (item.id === "custom") {
-                        if (customCommitted) { setCustomCommitted(false); return current; }
+                        // Clicking the card when the element is already confirmed deselects it right away;
+                        // editing stays available through the chip button inside the card.
+                        if (customCommitted) { setCustomText(""); setCustomCommitted(false); return current.filter((id) => id !== "custom"); }
                         if (current.includes("custom")) { setCustomText(""); return current.filter((id) => id !== "custom"); }
                         return [...current, "custom"];
                       }

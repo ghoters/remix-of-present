@@ -162,8 +162,8 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
   textInput?: { value: string; placeholder: string; onChange: (value: string) => void; onCommit: () => void; onEdit: () => void; onCancel: () => void; committed: boolean; buttonLabel: string } | undefined;
 }) {
   const recommendedClasses =
-    recommendedTone === "light-gray" ? "bg-muted text-muted-foreground" :
-    recommendedTone === "dark-gray" ? "bg-muted-foreground/30 text-muted-foreground" :
+    recommendedTone === "light-gray" ? "bg-muted/60 text-muted-foreground/70" :
+    recommendedTone === "dark-gray" ? "bg-muted-foreground/45 text-card" :
     recommendedTone === "purple" ? "bg-primary text-primary-foreground" :
     selected ? "bg-primary text-primary-foreground" :
     "bg-muted-foreground/30 text-muted-foreground";
@@ -283,8 +283,8 @@ function CompactChoice({ selected, stepActive, onClick, title, text, price, imag
   selected: boolean; stepActive: boolean; onClick: () => void; title: string; text: string; price: number; image?: string | undefined; imageSide: ImageSide; recommended?: boolean; recommendedTone?: "light-gray" | "dark-gray" | "purple" | undefined;
 }) {
   const recommendedClasses =
-    recommendedTone === "light-gray" ? "bg-muted text-muted-foreground" :
-    recommendedTone === "dark-gray" ? "bg-muted-foreground/30 text-muted-foreground" :
+    recommendedTone === "light-gray" ? "bg-muted/60 text-muted-foreground/70" :
+    recommendedTone === "dark-gray" ? "bg-muted-foreground/45 text-card" :
     recommendedTone === "purple" ? "bg-primary text-primary-foreground" :
     selected ? "bg-primary text-primary-foreground" :
     "bg-muted-foreground/30 text-muted-foreground";
@@ -454,7 +454,7 @@ function OfferPage() {
                     {...item}
                     stepActive={activeSteps[1] && readySteps[1]}
                     selected={size === item.id}
-                    onClick={() => size === item.id ? clearSize() : setSize(item.id)}
+                    onClick={() => size === item.id ? (lastFilledStep === 1 ? clearSize() : undefined) : setSize(item.id)}
                   />
                 ))}
               </div>
@@ -472,7 +472,7 @@ function OfferPage() {
                       stepActive={activeSteps[2] && readySteps[2]}
                       selected={finish === item.id}
                       recommendedTone={item.id === "painted" ? finishRecommendedTone : undefined}
-                      onClick={() => finish === item.id ? clearFinish() : setFinish(item.id)}
+                      onClick={() => finish === item.id ? (lastFilledStep === 2 ? clearFinish() : undefined) : setFinish(item.id)}
                     />
                   );
                 })}
@@ -491,7 +491,7 @@ function OfferPage() {
                       stepActive={activeSteps[3] && readySteps[3]}
                       selected={base === item.id}
                       recommendedTone={item.id === "standard" ? baseRecommendedTone : undefined}
-                      onClick={() => base === item.id ? clearBase() : setBase(item.id)}
+                      onClick={() => base === item.id ? (lastFilledStep === 3 ? clearBase() : undefined) : setBase(item.id)}
                     />
                   );
                 })}
@@ -510,7 +510,7 @@ function OfferPage() {
                       stepActive={activeSteps[4] && readySteps[4]}
                       selected={pack === item.id}
                       recommendedTone={item.id === "gift" ? packRecommendedTone : undefined}
-                      onClick={() => setPack((current) => current === item.id ? null : item.id)}
+                      onClick={() => pack === item.id ? (lastFilledStep === 4 ? clearPack() : undefined) : setPack(item.id)}
                     />
                   );
                 })}

@@ -169,10 +169,8 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
     "bg-muted-foreground/30 text-muted-foreground";
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const committingRef = useRef(false);
   const handleCommit = () => {
     if (textInput?.value.trim()) {
-      committingRef.current = true;
       textInput.onCommit();
     }
   };
@@ -244,7 +242,6 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
                 else if (event.key === "Escape") { event.stopPropagation(); inputRef.current?.blur(); }
               }}
               onBlur={(event) => {
-                if (committingRef.current) { committingRef.current = false; return; }
                 if (textInput.committed) return;
                 if (event.relatedTarget && containerRef.current?.contains(event.relatedTarget as Node)) return;
                 if (textInput.value.trim()) textInput.onCommit();

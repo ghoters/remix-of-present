@@ -516,6 +516,7 @@ function OfferPage() {
                       key={item.id}
                       {...item}
                       stepActive={activeSteps[4] && readySteps[4]}
+                      hoverable={isHoverStep(4)}
                       selected={pack === item.id}
                       recommendedTone={item.id === "gift" ? packRecommendedTone : undefined}
                       onClick={() => pack === item.id ? (lastFilledStep === 4 ? clearPack() : undefined) : setPack(item.id)}

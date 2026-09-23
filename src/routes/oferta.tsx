@@ -139,9 +139,10 @@ function RecommendedBadge({ className }: { className: string }) {
   );
 }
 
-function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, text, price, priceLabel, priceViolet, counter, minCount, onIncrement, onDecrement, image, imageSide, imageClassName, recommended, recommendedTone, textInput }: {
+function ChoiceCard({ selected, stepActive, hoverable, locked, onClick, icon: Icon, title, text, price, priceLabel, priceViolet, counter, minCount, onIncrement, onDecrement, image, imageSide, imageClassName, recommended, recommendedTone, textInput }: {
   selected: boolean;
   stepActive: boolean;
+  hoverable?: boolean;
   locked?: boolean;
   onClick: () => void;
   icon?: IconType;
@@ -183,7 +184,7 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
       aria-pressed={selected}
       onClick={onClick}
       onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onClick(); } }}
-      className={`group relative flex min-h-[144px] w-full flex-row items-stretch justify-start gap-4 overflow-hidden whitespace-normal rounded-md border p-3.5 text-left text-sm font-medium shadow-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring ${locked ? "cursor-default" : "cursor-pointer"} ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}
+      className={`group relative flex min-h-[144px] w-full flex-row items-stretch justify-start gap-4 overflow-hidden whitespace-normal rounded-md border p-3.5 text-left text-sm font-medium shadow-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring ${locked ? "cursor-default" : "cursor-pointer"} ${hoverable ? "hover:bg-accent hover:text-accent-foreground" : ""} ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}
     >
       {recommended && <RecommendedBadge className={recommendedClasses} />}
       {imageSide === "left" && slot}
@@ -277,8 +278,8 @@ function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, 
   );
 }
 
-function CompactChoice({ selected, stepActive, onClick, title, text, price, image, imageSide, recommended, recommendedTone }: {
-  selected: boolean; stepActive: boolean; onClick: () => void; title: string; text: string; price: number; image?: string | undefined; imageSide: ImageSide; recommended?: boolean; recommendedTone?: "light-gray" | "dark-gray" | "purple" | undefined;
+function CompactChoice({ selected, stepActive, hoverable, onClick, title, text, price, image, imageSide, recommended, recommendedTone }: {
+  selected: boolean; stepActive: boolean; hoverable?: boolean; onClick: () => void; title: string; text: string; price: number; image?: string | undefined; imageSide: ImageSide; recommended?: boolean; recommendedTone?: "light-gray" | "dark-gray" | "purple" | undefined;
 }) {
   const recommendedClasses =
     recommendedTone === "light-gray" ? "bg-muted/60 text-muted-foreground/70" :
@@ -288,7 +289,7 @@ function CompactChoice({ selected, stepActive, onClick, title, text, price, imag
     "bg-muted-foreground/30 text-muted-foreground";
   const slot = <ImageSlot image={image} side={imageSide} className="h-full w-[32%]" />;
   return (
-    <Button type="button" variant="outline" onClick={onClick} className={`relative h-[100px] w-full flex-row items-stretch justify-start gap-3 overflow-hidden whitespace-normal rounded-md p-2.5 text-left shadow-none transition-colors ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}>
+    <Button type="button" variant="outline" onClick={onClick} className={`relative h-[100px] w-full flex-row items-stretch justify-start gap-3 overflow-hidden whitespace-normal rounded-md p-2.5 text-left shadow-none transition-colors ${hoverable ? "hover:bg-accent hover:text-accent-foreground" : "hover:bg-transparent hover:text-inherit"} ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}>
       {recommended && <RecommendedBadge className={recommendedClasses} />}
       {imageSide === "left" && slot}
       <div className={`relative flex min-w-0 flex-1 flex-col justify-center pr-4 ${recommended ? "pb-1 pt-[10px]" : "py-1"}`}>
@@ -348,6 +349,9 @@ function OfferPage() {
   // Only the deepest completed step can be cleared, so the step sequence stays intact.
   const lastFilledStep = pack ? 4 : base ? 3 : finish ? 2 : size ? 1 : 0;
 
+  // Hover highlight lives only on the deepest answered step and the next one to fill.
+  const isHoverStep = (index: number) => readySteps[index] === true && (index === lastFilledStep || index === lastFilledStep + 1);
+
   // Clearing a step also resets all later choices so the configuration stays consistent.
   const clearSize = () => { setSize(null); setFinish(null); setBase(null); setPack(null); };
   const clearFinish = () => { setFinish(null); setBase(null); setPack(null); };
@@ -388,6 +392,7 @@ function OfferPage() {
                     {...item}
                     priceViolet={item.id === "person"}
                     stepActive={activeSteps[0]}
+                    hoverable={isHoverStep(0)}
                     selected={item.id === "animal" ? subjects.includes("animal") && animalCount > 0 : subjects.includes(item.id)}
                     locked={item.id === "person"}
                     imageClassName={item.id === "custom" ? "w-[22%]" : undefined}
@@ -453,6 +458,7 @@ function OfferPage() {
                     key={item.id}
                     {...item}
                     stepActive={activeSteps[1] && readySteps[1]}
+                    hoverable={isHoverStep(1)}
                     selected={size === item.id}
                     onClick={() => size === item.id ? (lastFilledStep === 1 ? clearSize() : undefined) : setSize(item.id)}
                   />
@@ -470,6 +476,7 @@ function OfferPage() {
                       key={item.id}
                       {...item}
                       stepActive={activeSteps[2] && readySteps[2]}
+                      hoverable={isHoverStep(2)}
                       selected={finish === item.id}
                       recommendedTone={item.id === "painted" ? finishRecommendedTone : undefined}
                       onClick={() => finish === item.id ? (lastFilledStep === 2 ? clearFinish() : undefined) : setFinish(item.id)}
@@ -489,6 +496,7 @@ function OfferPage() {
                       key={item.id}
                       {...item}
                       stepActive={activeSteps[3] && readySteps[3]}
+                      hoverable={isHoverStep(3)}
                       selected={base === item.id}
                       recommendedTone={item.id === "standard" ? baseRecommendedTone : undefined}
                       onClick={() => base === item.id ? (lastFilledStep === 3 ? clearBase() : undefined) : setBase(item.id)}
@@ -508,6 +516,7 @@ function OfferPage() {
                       key={item.id}
                       {...item}
                       stepActive={activeSteps[4] && readySteps[4]}
+                      hoverable={isHoverStep(4)}
                       selected={pack === item.id}
                       recommendedTone={item.id === "gift" ? packRecommendedTone : undefined}
                       onClick={() => pack === item.id ? (lastFilledStep === 4 ? clearPack() : undefined) : setPack(item.id)}

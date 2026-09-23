@@ -349,6 +349,9 @@ function OfferPage() {
   // Only the deepest completed step can be cleared, so the step sequence stays intact.
   const lastFilledStep = pack ? 4 : base ? 3 : finish ? 2 : size ? 1 : 0;
 
+  // Hover highlight lives only on the deepest answered step and the next one to fill.
+  const isHoverStep = (index: number) => readySteps[index] === true && (index === lastFilledStep || index === lastFilledStep + 1);
+
   // Clearing a step also resets all later choices so the configuration stays consistent.
   const clearSize = () => { setSize(null); setFinish(null); setBase(null); setPack(null); };
   const clearFinish = () => { setFinish(null); setBase(null); setPack(null); };

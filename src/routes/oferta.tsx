@@ -458,6 +458,7 @@ function OfferPage() {
                     key={item.id}
                     {...item}
                     stepActive={activeSteps[1] && readySteps[1]}
+                    hoverable={isHoverStep(1)}
                     selected={size === item.id}
                     onClick={() => size === item.id ? (lastFilledStep === 1 ? clearSize() : undefined) : setSize(item.id)}
                   />

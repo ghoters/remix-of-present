@@ -289,7 +289,7 @@ function CompactChoice({ selected, stepActive, hoverable, onClick, title, text, 
     "bg-muted-foreground/30 text-muted-foreground";
   const slot = <ImageSlot image={image} side={imageSide} className="h-full w-[32%]" />;
   return (
-    <Button type="button" variant="outline" onClick={onClick} className={`relative h-[100px] w-full flex-row items-stretch justify-start gap-3 overflow-hidden whitespace-normal rounded-md p-2.5 text-left shadow-none transition-colors ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}>
+    <Button type="button" variant="outline" onClick={onClick} className={`relative h-[100px] w-full flex-row items-stretch justify-start gap-3 overflow-hidden whitespace-normal rounded-md p-2.5 text-left shadow-none transition-colors ${hoverable ? "hover:bg-accent hover:text-accent-foreground" : "hover:bg-transparent hover:text-inherit"} ${selected ? "border-primary bg-card ring-1 ring-primary" : stepActive ? "border-border bg-card" : "border-border/60 bg-muted/50 text-muted-foreground"}`}>
       {recommended && <RecommendedBadge className={recommendedClasses} />}
       {imageSide === "left" && slot}
       <div className={`relative flex min-w-0 flex-1 flex-col justify-center pr-4 ${recommended ? "pb-1 pt-[10px]" : "py-1"}`}>

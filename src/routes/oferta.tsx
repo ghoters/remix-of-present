@@ -139,7 +139,7 @@ function RecommendedBadge({ className }: { className: string }) {
   );
 }
 
-function ChoiceCard({ selected, stepActive, locked, onClick, icon: Icon, title, text, price, priceLabel, priceViolet, counter, minCount, onIncrement, onDecrement, image, imageSide, imageClassName, recommended, recommendedTone, textInput }: {
+function ChoiceCard({ selected, stepActive, hoverable, locked, onClick, icon: Icon, title, text, price, priceLabel, priceViolet, counter, minCount, onIncrement, onDecrement, image, imageSide, imageClassName, recommended, recommendedTone, textInput }: {
   selected: boolean;
   stepActive: boolean;
   locked?: boolean;

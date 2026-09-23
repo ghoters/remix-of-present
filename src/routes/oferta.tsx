@@ -278,8 +278,8 @@ function ChoiceCard({ selected, stepActive, hoverable, locked, onClick, icon: Ic
   );
 }
 
-function CompactChoice({ selected, stepActive, onClick, title, text, price, image, imageSide, recommended, recommendedTone }: {
-  selected: boolean; stepActive: boolean; onClick: () => void; title: string; text: string; price: number; image?: string | undefined; imageSide: ImageSide; recommended?: boolean; recommendedTone?: "light-gray" | "dark-gray" | "purple" | undefined;
+function CompactChoice({ selected, stepActive, hoverable, onClick, title, text, price, image, imageSide, recommended, recommendedTone }: {
+  selected: boolean; stepActive: boolean; hoverable?: boolean; onClick: () => void; title: string; text: string; price: number; image?: string | undefined; imageSide: ImageSide; recommended?: boolean; recommendedTone?: "light-gray" | "dark-gray" | "purple" | undefined;
 }) {
   const recommendedClasses =
     recommendedTone === "light-gray" ? "bg-muted/60 text-muted-foreground/70" :

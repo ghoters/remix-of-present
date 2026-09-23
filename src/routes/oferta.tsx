@@ -476,6 +476,7 @@ function OfferPage() {
                       key={item.id}
                       {...item}
                       stepActive={activeSteps[2] && readySteps[2]}
+                      hoverable={isHoverStep(2)}
                       selected={finish === item.id}
                       recommendedTone={item.id === "painted" ? finishRecommendedTone : undefined}
                       onClick={() => finish === item.id ? (lastFilledStep === 2 ? clearFinish() : undefined) : setFinish(item.id)}

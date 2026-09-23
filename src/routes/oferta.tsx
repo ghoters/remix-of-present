@@ -142,6 +142,7 @@ function RecommendedBadge({ className }: { className: string }) {
 function ChoiceCard({ selected, stepActive, hoverable, locked, onClick, icon: Icon, title, text, price, priceLabel, priceViolet, counter, minCount, onIncrement, onDecrement, image, imageSide, imageClassName, recommended, recommendedTone, textInput }: {
   selected: boolean;
   stepActive: boolean;
+  hoverable?: boolean;
   locked?: boolean;
   onClick: () => void;
   icon?: IconType;

@@ -392,6 +392,7 @@ function OfferPage() {
                     {...item}
                     priceViolet={item.id === "person"}
                     stepActive={activeSteps[0]}
+                    hoverable={isHoverStep(0)}
                     selected={item.id === "animal" ? subjects.includes("animal") && animalCount > 0 : subjects.includes(item.id)}
                     locked={item.id === "person"}
                     imageClassName={item.id === "custom" ? "w-[22%]" : undefined}
